@@ -1,13 +1,13 @@
 <?php 
 for($i=0; $i < count($this->products); $i++){ ?>
 <div class="col-sm-4 col-lg-4 col-md-4">
-    <div class="thumbnail">
+	<div class="thumbnail">
 		<img src="/images/mini/<?php echo $this->products[$i]["img"]; ?>" alt="">
-        <div class="caption">
+		<div class="caption">
 			<h4 class="pull-right"><span class="label label-primary"><?php echo $this->products[$i]["price"]; ?> грн</span></h4>
-            <h4><a href="/product?id=<?php echo $this->products[$i]["id"]; ?>"><?php echo $this->products[$i]["title"]; ?></a></h4>
-            <p><?php echo $this->products[$i]["description"]; ?></p>
-        </div>
-    </div>
+			<h4><a href="/product?id=<?php echo $this->products[$i]["id"]; ?>"><?php echo $this->products[$i]["title"]; ?></a></h4>
+			<p><?php echo $this->products[$i]["description"]; ?></p>
+		</div>
+	</div>
 </div>
 <?php } ?>

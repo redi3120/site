@@ -51,6 +51,12 @@ body {
 .in_cart {
     width:70px;
 }
+.im_sec {
+    width: 40px;
+    float: left;
+    margin-right: 10px;
+    margin-top: 9px;
+}
 footer {
     margin: 50px 0;
 }

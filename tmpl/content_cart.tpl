@@ -1,10 +1,13 @@
 <div class="col-md-9">
 	<div class="row">
-	<?php if(count($this->cart) == 0): ?>
-        <h1 class="text-center">Корзина пуста</h1>
-    <?php else: ?>
-    <h2>Корзина</h2>
-    <form name="cart" action="<?=$this->action?>" method="post">
+	<?php if($this->cart[0]["count"] == 0): ?>
+		<h1 class="text-center">Корзина пуста</h1>
+	<?php else: ?>
+		<?php if(!isset($_SESSION["user"])): ?>
+			<h1 class="text-center">Нужно зарегистрироваться</h1>
+		<?php else: ?>
+		<h2>Корзина</h2>
+	<form name="cart" action="<?=$this->action?>" method="post">
 		<table class="table table-bordered">
 			<tr>
 				<td colspan="2">Товар</td>
@@ -19,8 +22,8 @@
 						<img width="200" src="/images/mini/<?=$this->cart[$i]["img"]?>" alt="<?=$this->cart[$i]["title"]?>" />
 					</td>
 					<td class="title">
-                        <a href="/product?id=<?=$this->cart[$i]['id']?>"><?=$this->cart[$i]["title"]?></a>
-                    </td>
+						<a href="/product?id=<?=$this->cart[$i]['id']?>"><?=$this->cart[$i]["title"]?></a>
+					</td>
 					<td><?=$this->cart[$i]["price"]?> гривен</td>
 					<td>
 						<table width="100%">
@@ -37,13 +40,12 @@
 						<button type="button" onclick="location.href = '/functions.php?func=delete_cart&id=<?=$this->cart[$i]["id"]?>'" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Удалить</button>
 					</td>
 				</tr>
-				
 			<?php } ?>
 			<tr>
 				<td colspan="2">
 					<div class="left">
 						<button type="input" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-retweet"></span> Пересчитать</button>
-     	            </div>
+	 				</div>
 				</td>
 				<td colspan="4">
 					<div class="right">
@@ -53,6 +55,8 @@
 				</td>
 			</tr>
 		</table>
-	</form><?php endif; ?>
+	</form>
+		<?php endif; ?>
+	<?php endif; ?>
 </div>
 </div> 
