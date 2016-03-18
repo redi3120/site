@@ -30,16 +30,13 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">О нас</a>
+                        <a href="/service"><span class="glyphicon glyphicon-earphone"></span> Гарантия и сервис</a>
                     </li>
                     <li>
-                        <a href="#">Доставка</a>
-                    </li>
-                    <li>
-                        <a href="#">Контакты</a>
+                        <a href="/deliv"><span class="glyphicon glyphicon-envelope"></span> Доставка</a>
                     </li>
 					<li>
-                        <a href="#">Корзина</a>
+                        <a href="/cart"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина</a>
                     </li>
                 </ul>
             </div>
@@ -51,13 +48,12 @@
     <!-- Page Content -->
     <div class="container">
         <div class="row">
-
-            <div class="col-md-3">
+			<div class="col-md-3">
                 <p class="lead">Каталог</p>
                 <div class="list-group">
                     <?php 
                     for ($i = 0; $i < count($this->items); $i++) { ?>
-                        <a href="section&id=<?php echo $this->items[$i]["id"]; ?>" class="list-group-item"><span class="glyphicon glyphicon-folder-open"></span> &nbsp; <?php echo $this->items[$i]["title"]; ?></a>
+                        <a href="section?id=<?php echo $this->items[$i]["id"]; ?>" class="list-group-item"><span class="glyphicon glyphicon-folder-open"></span> &nbsp; <?php echo $this->items[$i]["title"]; ?></a>
                     <?php } ?>
 				</div>
             </div>

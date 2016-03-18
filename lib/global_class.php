@@ -3,18 +3,15 @@ require_once "database_class.php";
 require_once "config_class.php";
 require_once "check_class.php";
 require_once "url_class.php";
-//require_once "systemmessage_class.php";
 
 abstract class GlobalClass {
     protected $db;
     protected $table_name;
-    //protected $format;
     protected $check;
     protected $url;
     
     public function __construct($table_name){
         $this->db = DataBase::getDB();
-        //$this->format = new Format();
         $this->config = new Config();
         $this->check = new Check();
         $this->url = new URL();
@@ -33,17 +30,6 @@ abstract class GlobalClass {
 		return $this->db->query($query, array_values($data));
 	}
     
-    /*private function check($data) {
-		$result = $this->checkData($data);
-		if ($result === true) return true;
-		$sm = new SystemMessage();
-		return $sm->message($result);
-    }
-    
-    protected function checkData($data){
-        return true;
-    }*/
-    
     public function existsID($id){
         if(!$this->check->id($id)) return false;
         
@@ -55,9 +41,19 @@ abstract class GlobalClass {
         return count($result) != 0;
     }
     
-    public function getAll($order = false, $up = true, $count = false, $offset = false) {
+    public function getAll($order = false, $up = true, $count = false, $offset = false) {//need
         $ol = $this->getOL($order, $up, $count, $offset);
         $query = "SELECT * FROM `".$this->table_name."` $ol";
+        return $this->db->select($query);
+    }
+    
+    public function getSection($id) {
+        $query = "SELECT * FROM `".$this->table_name."` WHERE section_id = $id";
+        return $this->db->select($query);
+    }
+    
+    public function getSectionOnly($id) {
+        $query = "SELECT * FROM `".$this->table_name;
         return $this->db->select($query);
     }
     
@@ -94,12 +90,9 @@ abstract class GlobalClass {
     protected function transform($element){
 		if (!$element) return false;
 		if (isset($element[0])) {
-			for ($i = 0; $i < count($element); $i++)
-            
-            $element[$i] = $this->transformElement($element[$i]);
 			return $element;
 		}
-		else return $this->transformElement($element);
+		else return $element;
     }
     
     protected function getL($count, $offset){

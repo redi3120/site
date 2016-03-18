@@ -3,17 +3,23 @@
     
     class Section extends GlobalClass {
         
+        private $product;
+        
         public function __construct(){
+            //parent::__construct("products");
             parent::__construct("sections");
+            
         }
         
-        public function getAllData(){
-            return $this->transform($this->getAll("id"));
+        public function getAllData($id = 1){
+            return $this->transform($this->getSectionOnly($id));
         }
         
-        protected function transformElement($section){
-            $section["link"] = $this->url->section($section["id"]);
-            return $section;
+        public function getAllProd($id = 1){
+            $this->product = new Product();
+            
+            return $this->product->getProductSec($id);
+            
         }
     }
 ?>

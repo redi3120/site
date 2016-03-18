@@ -16,7 +16,7 @@ class Url {
         if(($pos = strpos($view,"?")) !== false){
             $view = substr($view, 0, $pos);
         }
-        return $view;
+		return $view;
     }
     
     public function setAMP($amp){
@@ -89,6 +89,10 @@ class Url {
     public function product($id){
         return $this->returnURL("/product?id=$id");
     }
+	
+    public function about(){
+        return $this->returnURL("/about");
+    }
     
     public function addCart($id){
         return $this->returnURL("/functions.php?func=add_cart&id=$id");
@@ -97,40 +101,9 @@ class Url {
     public function deleteCart($id){
         return $this->returnURL("/functions.php?func=delete_cart&id=$id");
     }
-    /*
-    public function sortTitleUp(){
-        return $this->sortOnField("title", 1);
-    }
-    
-    public function sortTitleDown(){
-        return $this->sortOnField("title", 0);
-    }
-    
-    public function sortPriceUp(){
-        return $this->sortOnField("price", 1);
-    }
-    
-    public function sortPriceDown(){
-        return $this->sortOnField("price", 0);
-    }
-    
-    public function action(){
-        return $this->returnURL("/functions.php");
-    }*/
     
     private function sortOnField($field, $up){
         $this_url = $this->getThisURL();
-        
-        //$this_url = $this->deleteGET($this_url, "up");
-		//$this_url = $this->deleteGET($this_url, "sort");
-        
-        //настоящий код
-        //if (strpos($this_url, "?") === false) $url = $this->url."?sort=$field&up=$up";
-		//else $url = $this_url."&sort=$field&up=$up";
-		
-        //мой код
-        //if (strpos($this_url, "?") === false) $url = "?sort=$field&up=$up";
-        //else $url = "&sort=$field&up=$up";
         
         return $this->returnURL($url);
     }

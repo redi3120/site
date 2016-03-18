@@ -7,10 +7,11 @@
     $url = new URL();
     $view = $url->getView();
 	
-	$class = "content";
+	$class = $view."content";
 	
 	if(file_exists($dir_lib.$class."_class.php")){
         require_once $dir_lib.$class."_class.php";
+		//echo $dir_lib.$class."_class.php";
         new $class;
     } else {
         //require_once $dir_lib."notfoundcontent_class.php";

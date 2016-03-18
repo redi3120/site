@@ -1,37 +1,31 @@
 <?php
 require_once "config_class.php";
 require_once "url_class.php";
-//require_once "format_class.php";
 require_once "template_class.php";
 require_once "section_class.php";
 require_once "product_class.php";
-//require_once "discount_class.php";
-//require_once "message_class.php";
+require_once "page_class.php";
+require_once "lib_class.php";
 
 abstract class Modules {
-    
     protected $config;
-    protected $data;
     protected $url;
-    //protected $format;
     protected $section;
     protected $product;
-    //protected $discount;
-    //protected $message;
+	protected $page;
     
     public function __construct(){
-        //session_start();
+		
+		session_start();
+		
+		//var_dump($_SESSION);
+		
         $this->config = new Config();
         $this->url = new Url();
-        //$this->format = new Format();
-        //$this->data = $this->format->xss($_REQUEST);
         $this->template = new Template($this->config->dir_tmpl);
         $this->section = new Section();
         $this->product = new Product();
-        //$this->discount = new Discount();
-        //$this->message = new Message();
-        
-        //$this->setInfoCart();
+		$this->page = new Page();
         
         $this->template->set("content", $this->getContent());
         $this->template->set("title", $this->title);
@@ -45,14 +39,7 @@ abstract class Modules {
         $this->template->set("action", $this->url->action());
         $this->template->display("main");
     }
-    /*
-    private function setInfoCart(){
-        $ids = explode(",", $_SESSION["cart"]);
-        $summa = $this->product->getPriceOnIDs($ids);
-        $this->template->set("cart_count", count($ids));
-        $this->template->set("cart_summa", $summa);
-    }
-    */
+
     abstract protected function getContent();
     
     protected function setLinkSort(){
@@ -65,17 +52,7 @@ abstract class Modules {
     protected function notFound(){
         $this->redirect($this->url->notFound());
     }
-    /*
-    protected function message(){
-        echo ">>>>>>>>>> ". $_SESSION["message"]."<<<";
-        
-        if(!$_SESSION["message"]) return "";
-        $text = $this->message->get($_SESSION["message"]);
-        
-        unset($_SESSION["message"]);
-        return $text;
-    }
-    */
+
     protected function redirect($link){
         header("Location: $link");
         exit();

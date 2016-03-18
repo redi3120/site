@@ -2,7 +2,6 @@
 require_once "config_class.php";
 
 class DataBase {
-    
     private static $db = null;
     private $config;
     private $mysql;
@@ -15,16 +14,15 @@ class DataBase {
     private function __construct()  {
         $this->config = new Config();
         $this->mysqli = new mysqli(
-            $this->config->db_host,
-            $this->config->db_user,
-            $this->config->db_password,
-            $this->config->db_name);
+        $this->config->db_host,
+        $this->config->db_user,
+        $this->config->db_password,
+        $this->config->db_name);
         $this->mysqli->query("SET NAME 'utf8'");
     }
     
     private function getQuery($query, $params){
-        
-		if ($params) {
+        if ($params) {
 			for ($i = 0; $i < count($params); $i++) {
 				$pos = strpos($query, $this->config->sym_query);
 				$arg = "'".$this->mysqli->real_escape_string($params[$i])."'";

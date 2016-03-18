@@ -2,7 +2,6 @@
 require_once "global_class.php";
 
 class Product extends GlobalClass {
-        
         public function __construct() {
     		parent::__construct("products");
     	}
@@ -12,7 +11,7 @@ class Product extends GlobalClass {
         }
         
         public function transformElement($product){
-            $product["img"] = $this->config->dir_img_products_min.$product["img"];
+            $product["img"] = $product["img"];
             //$product["link"] = $this->url->product($product["id"]);
             //$product["link_cart"] = $this->url->addCart($product["id"]);
             //$product["description"] = str_replace("\n", "</br>",$this->url->addCart($product["description"]));
@@ -21,7 +20,7 @@ class Product extends GlobalClass {
             return $product;
         }
         
-        public function checkSortUp($sort, $up){
+        /*public function checkSortUp($sort, $up){
             return ((($sort === "title") || ($sort === "price")) && (($up === "1") || ($up === "1")));
         }
         
@@ -30,7 +29,7 @@ class Product extends GlobalClass {
     		return $this->transform($this->getAllOnField("section_id", $section_id, $sort, $up));
         }
         
-    	/*public function get($id, $section_table) {
+    	public function get($id, $section_table) {
     		if (!$this->check->id($id)) return false;
     		$query = "SELECT `".$this->table_name."`.`id`,
     		`".$this->table_name."`.`section_id`,
@@ -69,38 +68,43 @@ class Product extends GlobalClass {
 		$query = "SELECT * FROM `".$this->table_name."` WHERE `id` IN ($query_ids)";
 		return $this->transform($this->db->select($query, $params));
 	}
+	
+	public function getOneProduct($id) {
+		$query = "SELECT * FROM `".$this->table_name."` WHERE `id` = $id";
+		return $this->db->select($query);
+	}
+    
+ 	public function getProductSec($id) {
+		$query = "SELECT * FROM `".$this->table_name."` WHERE `section_id` = $id";
+        //echo $query;
+		return $this->db->select($query);
+	}
 
-    	public function getPriceOnIDs($ids) {
-    		$products = $this->getAllOnIDs($ids);
-    		$result = array();
-    		for ($i = 0; $i < count($products); $i++) {
-    			$result[$products[$i]["id"]] = $products[$i]["price"];
-    		}
-    		$summa = 0;
-    		for ($i = 0; $i < count($ids); $i++) {
-    			$summa += $result[$ids[$i]];
-    		}
-    		return $summa;
+    public function getPriceOnIDs($ids) {
+    	$products = $this->getAllOnIDs($ids);
+    	$result = array();
+    	for ($i = 0; $i < count($products); $i++) {
+    		$result[$products[$i]["id"]] = $products[$i]["price"];
     	}
-        
-        public function getOthers($product_info, $count) {
-            $l = $this->getL($count, 0);
-            
-            //запрос ниже позволяет нам вывести все товары этой же категории что и товар кроме самого товара и в случайтом порядке и не больше 3
-            $query = "SELECT * FROM `".$this->table_name."` WHERE `section_id`=".$this->config->sym_query." AND `id` != ".$this->config->sym_query. " ORDER BY RAND() $l";
-            return $this->transform($this->db->select($query, array($product_info["section_id"], $product_info["id"])));
-        }
-        
-        public function getAllSort($sort, $up, $count){//сортировка по названию и цене
-      		if (!$this->checkSortUp($sort, $up)) return $this->getAllData($count);
-    		$l = $this->getL($count, 0);
+    	$summa = 0;
+    	for ($i = 0; $i < count($ids); $i++) {
+    		$summa += $result[$ids[$i]];
+    	}
+    	return $summa;
+    }
+
+	public function getOthers($product_info, $count) {
+		$l = $this->getL($count, 0);
+		$query = "SELECT * FROM `".$this->table_name."` WHERE `section_id`=".$this->config->sym_query." AND `id` != ".$this->config->sym_query. " ORDER BY RAND() $l";
+		return $this->transform($this->db->select($query, array($product_info["section_id"], $product_info["id"])));
+    }
+
+	public function getAllSort($count){
+      		$l = $this->getL($count, 0);
     		
-            $desc = "";
-            if (!$up) $desc = "DESC";
-            
 			$query = "SELECT * FROM 
     			(SELECT * FROM `".$this->table_name."` ORDER BY `id` DESC $l) a
-    			ORDER BY `$sort` $desc";
+    			ORDER BY `id`";
             
     		return $this->transform($this->db->select($query));
         }
